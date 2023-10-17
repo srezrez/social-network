@@ -1,3 +1,5 @@
+import { rerenderTree } from "../render";
+
 let state = {
 
     profilePage : {
@@ -38,6 +40,7 @@ export let addPost = (postMessage) => {
     };
 
     state.profilePage.posts.push(newPost);
+    rerenderTree(state);
 }
 
 export default state;
