@@ -40,7 +40,7 @@ let store = {
         console.log('State was changed');
     },
 
-    addPost() {
+    _addPost() {
         let newPost = {
             id: 5,
             message: this._state.profilePage.newPostText,
@@ -52,9 +52,21 @@ let store = {
         this._notify(this._state);
     },
 
-    updateNewPostText(newText) {
+    _updateNewPostText(newText) {
         this._state.profilePage.newPostText = newText;
         this._notify(this._state);
+    },
+
+    dispatch(action) {
+
+        if (action.type == 'ADD-POST') {
+
+            this._addPost();
+
+        } else if (action.type == 'UPDATE-NEW-POST-TEXT') {
+
+            this._updateNewPostText(action.newText);
+        }
     },
     
     subscribe(observer) {
