@@ -8,9 +8,9 @@ import { Route, Routes } from 'react-router-dom';
 import News from './components/News/News';
 import Music from './components/Music/Music';
 import Settings from './components/Settings/Settings';
+import UsersContainer from './components/Users/UsersContainer';
 
 function App(props) {
-  debugger;
   return (
     <div className='app-wrapper'>
       <Header />
@@ -19,6 +19,7 @@ function App(props) {
           <Routes>
             <Route path='/profile' element={<Profile />} />
             <Route path='/dialogs/*' element={<DialogsContainer />} />
+            <Route path='/users' element={<UsersContainer />} />
             <Route path='/news' element={<News />} />
             <Route path='/music' element={<Music />} />
             <Route path='/settings' element={<Settings />} />
