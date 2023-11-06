@@ -23,6 +23,6 @@ let mapDispatchToProps = (dispatch) => {
     }
 }
 
-const UsersContainer = connect(mapStateToProps, mapDispatchToProps)(Users);
+const UsersContainer = connect(mapStateToProps, mapDispatchToProps)(Users); // можно использовать и функциональные, и классовые компоненты
 
 export default UsersContainer;
