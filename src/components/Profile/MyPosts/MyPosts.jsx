@@ -5,7 +5,6 @@ import { addPostActionCreator, updateNewPostTextActionCreator } from '../../../r
 
 const MyPosts = (props) => {
 
-    debugger;
     let postsElements = props.posts.map(post => <Post message={post.message} count={post.likesCount} />);
 
     let newPostElement = React.createRef(); // Create empty link
@@ -16,7 +15,6 @@ const MyPosts = (props) => {
 
     let onPostChange = () => {
         let text = newPostElement.current.value;
-        debugger;
         props.updateNewPostText(text);
     }
 
