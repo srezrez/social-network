@@ -33,8 +33,11 @@ export const authMe = () => {
     return (dispatch) => {
         authAPI.getMe()
             .then(data => {
-                let { id, login, email } = data.data;
-                dispatch(setAuthUserData(id, email, login));
+                if (data.resultCode === 0) {
+                    let { id, login, email } = data.data;
+                    dispatch(setAuthUserData(id, email, login));
+                }
+
             })
     }
 }

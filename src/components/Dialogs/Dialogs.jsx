@@ -3,6 +3,7 @@ import DialogItem from './DialogItem/DialogItem';
 import Message from './Message/Message';
 import React from 'react';
 import { addMessageActionCreator, updateNewMessageTextActionCreator } from '../../redux/dialogs-reducer';
+import { Navigate } from 'react-router-dom';
 
 const Dialogs = (props) => {
 
@@ -17,6 +18,10 @@ const Dialogs = (props) => {
 
     let onAddMessage = () => {
         props.addMessage();
+    }
+
+    if(!props.isAuth) {
+        return <Navigate to="/login" />
     }
 
     return (
