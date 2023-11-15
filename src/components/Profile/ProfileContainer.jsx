@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { getUserProfile } from '../../redux/profile-reducer';
 import { Navigate, useLocation, useNavigate, useParams } from "react-router-dom";
 import { withAuthRedirect } from '../../hoc/withAuthRedirect';
+import { compose } from 'redux';
 
 export function withRouter(Children){
     return(props)=>{
@@ -19,7 +20,7 @@ class ProfileContainer extends React.Component {
     componentDidMount() {
         let userId = this.props.match.params.userId;
         userId = userId ? userId : 2;
-        this.props.setProfile(userId);
+        this.props.getUserProfile(userId);
     }
 
     render() {
@@ -27,10 +28,12 @@ class ProfileContainer extends React.Component {
     }
 }
 
-let AuthRedirectComponent = withAuthRedirect(ProfileContainer);
-
 let mapStateToProps = (state) => ({
     profile: state.profilePage.profile
 });
 
-export default connect(mapStateToProps, {setProfile: getUserProfile})(withRouter(AuthRedirectComponent));
+export default compose(
+    connect(mapStateToProps, {getUserProfile}),
+    withRouter,
+    withAuthRedirect
+) (ProfileContainer);

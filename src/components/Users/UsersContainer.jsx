@@ -2,10 +2,11 @@ import React from "react";
 import axios from "axios";
 import Users from "./Users";
 import { connect } from 'react-redux';
-import { follow, setCurrentPage, unfollow, toggleFollowingInProgress, getUsers } from "../../redux/users-reducer";
+import { follow, setCurrentPage, unfollow, getUsers } from "../../redux/users-reducer";
 import Preloader from "../common/Preloader/Preloader";
 import { usersAPI } from "../../api/api";
 import { withAuthRedirect } from "../../hoc/withAuthRedirect";
+import { compose } from "redux";
 
 class UsersContainer extends React.Component {
 
@@ -44,6 +45,7 @@ let mapStateToProps = (state) => {
     }
 }
 
-//let AuthRedirectComponent = withAuthRedirect(UsersContainer)
-
-export default withAuthRedirect(connect(mapStateToProps, { follow, unfollow, setCurrentPage, getUsers })(UsersContainer)); // можно использовать и функциональные, и классовые компоненты
+export default compose(
+    withAuthRedirect,
+    connect(mapStateToProps, { follow, unfollow, setCurrentPage, getUsers })
+) (UsersContainer)
