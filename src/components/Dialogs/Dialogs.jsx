@@ -5,12 +5,19 @@ import React from 'react';
 import { addMessageActionCreator, updateNewMessageTextActionCreator } from '../../redux/dialogs-reducer';
 import { Navigate } from 'react-router-dom';
 import { Field, reduxForm } from 'redux-form';
+import { FormControl, Textarea } from '../common/FormsControls/FormsControls';
+import { maxLengthCreator, required } from '../../utils/validators/validators';
 
 const MessageForm = (props) => {
     return (
         <form onSubmit={props.handleSubmit}>
             <div>
-                <Field component="textarea" name="message" placeholder="New message"/>
+                <Field
+                    component={FormControl}
+                    fieldType="textarea"
+                    validate={[required, maxLengthCreator(100)]}
+                    name="message"
+                    placeholder="New message" />
             </div>
             <div>
                 <button>Add Message</button>
@@ -21,17 +28,13 @@ const MessageForm = (props) => {
 
 const MessageReduxForm = reduxForm({
     form: 'message'
-}) (MessageForm)
+})(MessageForm)
 
 const Dialogs = (props) => {
 
     let state = props.dialogsPage;
     let dialogsElements = state.dialogs.map(dialog => <DialogItem name={dialog.name} key={dialog.id} id={dialog.id} />);
     let messagesElements = state.messages.map(message => <Message message={message.message} key={message.id} />);
-
-    if (!props.isAuth) {
-        return <Navigate to="/login" />
-    }
 
     const onSubmit = (formData) => {
         props.addMessage(formData.message);
@@ -45,7 +48,7 @@ const Dialogs = (props) => {
             <div className={s.messages}>
                 <div>{messagesElements}</div>
             </div>
-            <MessageReduxForm onSubmit={onSubmit}/>
+            <MessageReduxForm onSubmit={onSubmit} />
         </div>
     );
 }
