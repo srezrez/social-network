@@ -3,9 +3,9 @@ import axios from 'axios';
 import Profile from './Profile';
 import { connect } from 'react-redux';
 import { getUserProfile, getUserStatus, updateUserStatus } from '../../redux/profile-reducer';
-import { Navigate, useLocation, useNavigate, useParams } from "react-router-dom";
-import { withAuthRedirect } from '../../hoc/withAuthRedirect';
+import { useParams } from "react-router-dom";
 import { compose } from 'redux';
+import { withAuthRedirect } from '../../hoc/withAuthRedirect';
 
 export function withRouter(Children){
     return(props)=>{
@@ -19,7 +19,9 @@ class ProfileContainer extends React.Component {
 
     componentDidMount() {
         let userId = this.props.match.params.userId;
-        userId = userId ? userId : 30322;
+        if(!userId) {
+            userId = this.props.authUserId;
+        }
         this.props.getUserProfile(userId);
         this.props.getUserStatus(userId);
     }
@@ -31,11 +33,13 @@ class ProfileContainer extends React.Component {
 
 let mapStateToProps = (state) => ({
     profile: state.profilePage.profile,
-    status: state.profilePage.status
+    status: state.profilePage.status,
+    authUserId: state.auth.userId,
+    isAuth: state.auth.isAuth
 });
 
 export default compose(
     connect(mapStateToProps, {getUserProfile, getUserStatus, updateUserStatus}),
     withRouter,
-    //withAuthRedirect
+    withAuthRedirect
 ) (ProfileContainer);
