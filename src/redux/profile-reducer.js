@@ -16,8 +16,8 @@ let initialState = {
 
 export const profileReducer = (state = initialState, action) => {
 
-    switch(action.type) {
-            
+    switch (action.type) {
+
         case ADD_POST:
             let newPost = {
                 id: 5,
@@ -52,40 +52,28 @@ export const profileReducer = (state = initialState, action) => {
     }
 }
 
-export const addPostActionCreator = (text) => ({type: ADD_POST, newText: text})
+export const addPostActionCreator = (text) => ({ type: ADD_POST, newText: text })
 
-export const deletePost = (postId) => ({type: DELETE_POST, postId})
+export const deletePost = (postId) => ({ type: DELETE_POST, postId })
 
-export const setUserProfile = (profile) => ({type: SET_USER_PROFILE, profile})
+export const setUserProfile = (profile) => ({ type: SET_USER_PROFILE, profile })
 
-export const setUserStatus = (status) => ({type: SET_USER_STATUS, status})
+export const setUserStatus = (status) => ({ type: SET_USER_STATUS, status })
 
-export const getUserProfile = (userId) => {
-    return (dispatch) => {
-        profileAPI.getProfile(userId)
-        .then(data => {
-            dispatch(setUserProfile(data));
-        })
-    }
+export const getUserProfile = (userId) => async (dispatch) => {
+    let data = profileAPI.getProfile(userId);
+    dispatch(setUserProfile(data));
 }
 
-export const getUserStatus = (userId) => {
-    return (dispatch) => {
-        profileAPI.getStatus(userId)
-        .then(data => {
-            dispatch(setUserStatus(data));
-        })
-    }
+export const getUserStatus = (userId) => async (dispatch) => {
+    let data = await profileAPI.getStatus(userId);
+    dispatch(setUserStatus(data));
 }
 
-export const updateUserStatus = (status) => {
-    return (dispatch) => {
-        profileAPI.updateStatus(status)
-        .then(data => {
-            if (data.resultCode === 0) {
-                dispatch(setUserStatus(status));
-            }
-        })
+export const updateUserStatus = (status) => async (dispatch) => {
+    let data = await profileAPI.updateStatus(status);
+    if (data.resultCode === 0) {
+        dispatch(setUserStatus(status));
     }
 }
 

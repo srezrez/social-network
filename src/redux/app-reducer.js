@@ -2,7 +2,7 @@ import { stopSubmit } from "redux-form";
 import { authAPI } from "../api/api";
 import { authMe } from "./auth-reducer";
 
-const INIT_SUCCESS = 'INIT_SUCCESS';
+const INIT_SUCCESS = 'app/INIT_SUCCESS';
 
 let initialState = {
     initialized: false
